@@ -1,7 +1,6 @@
 package com.sda.database.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * JPA specific extension of Respository
@@ -13,7 +12,7 @@ public interface CrudRepository<T> {
     /**
      * Retrieves all entities
      *
-     * @see com.sda.database.repository.CrudRepository#findAll()
+     * @see CrudRepository#findAll()
      */
     List<T> findAll();
 
@@ -24,6 +23,19 @@ public interface CrudRepository<T> {
      * @return the entity with the given id or {@literal Optional#empty()} if none found
      * @throws IllegalArgumentException if {@code id} is {@literal null}.
      */
-    Optional<T> findById(long id);
+    T findById(long id);
 
+    /**
+     * Retrieves count of specified entity.
+     *
+     * @return the longr with the given id or {@literal Optional#empty()} if none found
+     * @throws IllegalArgumentException if {@code id} is {@literal null}.
+     */
+    long count();
+
+    int delete(long id);
+
+    int update(T updatedEntity);
+
+    int insert(T newEntity);
 }

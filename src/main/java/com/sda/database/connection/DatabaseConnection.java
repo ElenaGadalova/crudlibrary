@@ -1,5 +1,6 @@
 package com.sda.database.connection;
 
+import com.sda.database.constant.StatementType;
 import com.sda.database.property.ConnectionProperty;
 import lombok.extern.java.Log;
 
@@ -63,5 +64,42 @@ public abstract class DatabaseConnection {
         } catch (SQLException e) {
             throw new IllegalStateException();
         }
+    }
+
+    public int delete(final String sql) {
+        return executeQuery(sql, StatementType.DELETE);
+    }
+
+    public int update(final String sql) {
+        return executeQuery(sql, StatementType.UPDATE);
+    }
+
+    public int create(final String sql) {
+        return executeQuery(sql, StatementType.INSERT);
+    }
+
+    private int executeQuery(final String sql, final StatementType statementType) {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+            if (result > 0) {
+                if (StatementType.DELETE.equals(statementType)) {
+                    log.info(result + " row is affected and deleted.");
+                } else if (StatementType.INSERT.equals(statementType)) {
+                    log.info(result + " row is affected and inserted.");
+                } else if (StatementType.UPDATE.equals(statementType)) {
+                    log.info(result + " row is affected and updated.");
+                }
+                return result;
+            } else {
+                throw new NoSuchFieldException();
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
