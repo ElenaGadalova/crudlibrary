@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ConnectionProperty {
-
     private String driverName;
     private String databaseUrl;
     private String username;
     private String password;
-
-
 }
